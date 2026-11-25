@@ -1,0 +1,7 @@
+model,stage,accuracy,precision,recall,f1,roc_auc
+Naive Bayes,baseline,0.5431,0.3632,0.8638,0.5114,0.7445
+Naive Bayes,tuned,0.6308,0.4164,0.8319,0.555,0.7635
+SVM,baseline,0.8098,0.7429,0.4784,0.582,0.8559
+SVM,tuned,0.8137,0.7095,0.5533,0.6217,0.8587
+Random Forest,baseline,0.8379,0.757,0.61,0.6756,0.8904
+Random Forest,tuned,0.8375,0.7437,0.63,0.6822,0.8961

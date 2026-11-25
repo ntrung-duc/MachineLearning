@@ -12,7 +12,7 @@ Mục tiêu là xây dựng, huấn luyện và đánh giá 3 mô hình Machine 
 
 Sau đó so sánh hiệu quả của các mô hình để lựa chọn mô hình phù hợp nhất cho bài toán dự đoán hủy phòng.
 
-**Phạm vi dự án:** Chỉ tập trung vào code Machine Learning, tiền xử lý dữ liệu, huấn luyện, tuning và đánh giá mô hình. Không xây dựng website, backend hoặc ứng dụng demo.
+**Phạm vi dự án:** Tập trung vào code backend Machine Learning: tiền xử lý dữ liệu, huấn luyện, tuning, đánh giá mô hình và dự đoán bằng mô hình đã lưu. Không xây dựng website hoặc giao diện demo. Theo yêu cầu bài thi, source code không sử dụng comment.
 
 ---
 
@@ -293,6 +293,9 @@ Hotel_Booking_ML/
 │       ├── confusion_matrix_rf.png
 │       └── model_comparison.png
 │
+├── models/                (sinh ra khi chạy, không commit)
+├── main.py
+├── predict.py
 ├── requirements.txt
 └── README.md
 ```
@@ -358,38 +361,38 @@ Các mô hình phải sử dụng cùng tập train/test để đảm bảo kế
 
 ### Đức
 
-- [ ] EDA
-- [ ] Kiểm tra missing values, duplicates và outliers
-- [ ] Preprocessing
-- [ ] Encoding categorical variables
-- [ ] Train/test split
-- [ ] Naive Bayes baseline
-- [ ] Naive Bayes tuning
-- [ ] SVM baseline
-- [ ] SVM tuning
-- [ ] Kiểm tra code chạy thành công
-- [ ] Push code lên GitHub
+- [x] EDA
+- [x] Kiểm tra missing values, duplicates và outliers
+- [x] Preprocessing
+- [x] Encoding categorical variables
+- [x] Train/test split
+- [x] Naive Bayes baseline
+- [x] Naive Bayes tuning
+- [x] SVM baseline
+- [x] SVM tuning
+- [x] Kiểm tra code chạy thành công
+- [x] Push code lên GitHub
 
 ### Giang
 
-- [ ] Random Forest baseline
-- [ ] Random Forest tuning
-- [ ] Evaluation metrics
-- [ ] Confusion matrix
-- [ ] Model comparison
-- [ ] Comparison chart
-- [ ] Tổng hợp metrics của cả 3 mô hình
-- [ ] Lưu kết quả vào `results/metrics.csv`
-- [ ] Push code lên GitHub
+- [x] Random Forest baseline
+- [x] Random Forest tuning
+- [x] Evaluation metrics
+- [x] Confusion matrix
+- [x] Model comparison
+- [x] Comparison chart
+- [x] Tổng hợp metrics của cả 3 mô hình
+- [x] Lưu kết quả vào `results/metrics.csv`
+- [x] Push code lên GitHub
 
 ### Cả hai
 
-- [ ] Thống nhất preprocessing và train/test split
-- [ ] Test code từ đầu đến cuối
-- [ ] Đảm bảo không có data leakage
-- [ ] Kiểm tra baseline và tuned models
-- [ ] Thống nhất kết quả
-- [ ] Hoàn thiện project trong 2 ngày
+- [x] Thống nhất preprocessing và train/test split
+- [x] Test code từ đầu đến cuối
+- [x] Đảm bảo không có data leakage
+- [x] Kiểm tra baseline và tuned models
+- [x] Thống nhất kết quả
+- [x] Hoàn thiện project trong 2 ngày
 
 ---
 
@@ -407,3 +410,60 @@ Sau khi hoàn thành dự án, nhóm sẽ có:
 - Kết luận và lựa chọn mô hình phù hợp nhất cho bài toán Hotel Booking Cancellation Prediction.
 
 **Lưu ý:** Mô hình tốt nhất sẽ được xác định dựa trên kết quả thực nghiệm, không lựa chọn trước khi training và evaluation.
+
+---
+
+## 12. Cách chạy
+
+```bash
+pip install -r requirements.txt
+```
+
+Chạy toàn bộ pipeline (preprocessing → train baseline → tuning → evaluate → so sánh → lưu mô hình tốt nhất), mất khoảng 4 phút:
+
+```bash
+python main.py
+```
+
+Dự đoán bằng mô hình tốt nhất đã lưu trong `models/best_model.joblib`:
+
+```bash
+python predict.py 10
+```
+
+Hoặc chạy lần lượt các notebook `01` → `04` trong thư mục `notebooks/`.
+
+---
+
+## 13. Xử lý dữ liệu và đặc trưng
+
+- **Loại bỏ 31.994 dòng trùng lặp** để cùng một booking không xuất hiện đồng thời ở train và test.
+- **Loại bỏ giá trị bất thường:** ADR âm hoặc ≥ 1000, booking 0 khách, booking 0 đêm, số người lớn > 10. Còn lại 86.625 booking (train 69.300, test 17.325, tỷ lệ hủy 27,7%).
+- **Chống data leakage:** loại `reservation_status`, `reservation_status_date` (ghi nhận sau khi đã hủy) và `assigned_room_type` (chỉ biết khi khách nhận phòng).
+- **Missing values:** `agent`, `company` chuyển thành `has_agent`, `has_company`; `country` và `children` được impute bên trong pipeline (fit trên train).
+- **Feature engineering:** `total_nights`, `total_guests`, `is_family`, `has_previous_cancel`, `arrival_month`, `month_sin`, `month_cos`.
+- **Encoding:** One-hot encoding, gom các nhóm hiếm (< 200 mẫu) vào nhóm `infrequent`. Naive Bayes và SVM dùng thêm `StandardScaler`.
+- **SVM:** vì SVC có độ phức tạp ~O(n²), mô hình được train trên mẫu phân tầng gồm 20.000 booking của tập train, tuning trên 6.000 booking; đánh giá vẫn trên toàn bộ test set chung.
+
+---
+
+## 14. Kết quả thực nghiệm
+
+Kết quả trên test set chung (`results/metrics.csv`):
+
+| Model | Stage | Accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---|---|---|---|---|---|
+| Naive Bayes | baseline | 0.5431 | 0.3632 | 0.8638 | 0.5114 | 0.7445 |
+| Naive Bayes | tuned | 0.6308 | 0.4164 | 0.8319 | 0.5550 | 0.7635 |
+| SVM | baseline | 0.8098 | 0.7429 | 0.4784 | 0.5820 | 0.8559 |
+| SVM | tuned | 0.8137 | 0.7095 | 0.5533 | 0.6217 | 0.8587 |
+| Random Forest | baseline | 0.8379 | 0.7570 | 0.6100 | 0.6756 | 0.8904 |
+| Random Forest | tuned | 0.8375 | 0.7437 | 0.6300 | **0.6822** | **0.8961** |
+
+Tham số tốt nhất:
+
+- Naive Bayes: `var_smoothing = 0.01`
+- SVM: `kernel = rbf`, `C = 10`, `gamma = scale`
+- Random Forest: `n_estimators = 200`, `max_depth = 30`, `min_samples_split = 5`, `min_samples_leaf = 1`, `max_features = 0.3`
+
+**Mô hình tốt nhất: Random Forest (tuned)**, với F1 = 0.6822 và ROC-AUC = 0.8961. Các đặc trưng quan trọng nhất là `lead_time`, `adr`, `total_of_special_requests`, `country_PRT`, `market_segment_Online TA` và `required_car_parking_spaces`.
