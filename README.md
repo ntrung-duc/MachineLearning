@@ -197,6 +197,34 @@ X_train, X_test, y_train, y_test
 
 Giang phụ trách Random Forest phải sử dụng đúng dữ liệu train/test được chuẩn bị từ quy trình chung, không tự thực hiện `train_test_split()` lần nữa.
 
+#### Những đặc trưng cần nghiên cứu
+Đây là phần rất quan trọng vì giảng viên đã nhấn mạnh đóng góp trong xử lý đặc trưng.
+|Đặc trưng|	Ý nghĩa|
+|---|---|
+|lead_time|	Số ngày đặt phòng trước khi đến|
+|adr|	Giá phòng trung bình mỗi ngày|
+|previous_cancellations|	Số lần từng hủy phòng|
+|deposit_type|	Hình thức đặt cọc|
+|market_segment|	Phân khúc khách hàng|
+|is_repeated_guest|	Khách hàng từng lưu trú|
+|total_of_special_requests|	Số yêu cầu đặc biệt|
+|booking_changes|	Số lần thay đổi đặt phòng|
+
+Thành viên 2 có thể nghiên cứu tạo thêm các đặc trưng sau:
+|Đặc trưng mới|	Công thức|
+|---|---|
+|total_guests|	adults + children + babies|
+|total_nights|	stays_in_weekend_nights + stays_in_week_nights|
+|estimated_cost|	adr × total_nights|
+|has_children|	Có trẻ em hoặc em bé hay không|
+|previous_cancel_rate|	Số lần hủy trước đây / tổng số lần đặt trước đây|
+|lead_time_group|	Phân nhóm thời gian đặt trước|
+|is_family|	Có người lớn và trẻ em hoặc em bé|
+
+Cần xử lý trường hợp mẫu số bằng 0 khi tính tỷ lệ hủy trước đây.
+
+Đặc biệt, phải loại bỏ reservation_status và reservation_status_date khỏi đầu vào vì chúng gây rò rỉ thông tin kết quả. Những đặc trưng khác cũng cần được kiểm tra xem có thực sự khả dụng tại thời điểm dự đoán hay không.
+
 #### Trách nhiệm của thành viên
 
 | Thành viên | Trách nhiệm |
