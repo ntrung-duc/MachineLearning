@@ -35,7 +35,7 @@ Mục tiêu dự đoán tại thời điểm đặt phòng, chỉ sử dụng th
 - [ ] Thực nghiệm hai mô hình với đặc trưng mới do Giang cung cấp.
 - [ ] Tuning hai mô hình bằng cross-validation; lưu pipeline và kết quả.
 - [ ] Phân tích kết quả, hạn chế và lỗi dự đoán của hai mô hình.
-- [ ] Kiểm tra code, cập nhật GitHub và viết phần báo cáo phụ trách.
+- [ ] Kiểm tra code, cập nhật GitHub.
 
 **File phụ trách:**
 
@@ -59,7 +59,7 @@ notebooks/03_Naive_Bayes_SVM.ipynb
 - [ ] Xây dựng hàm đánh giá chung cho ba mô hình.
 - [ ] Tổng hợp metrics, confusion matrix, ROC curve và biểu đồ so sánh.
 - [ ] Tích hợp backend, xây dựng lệnh chạy toàn bộ mô hình.
-- [ ] Kiểm tra code, cập nhật GitHub và viết phần báo cáo phụ trách.
+- [ ] Kiểm tra code, cập nhật GitHub.
 
 **File phụ trách:**
 
@@ -79,7 +79,7 @@ notebooks/05_Model_Comparison.ipynb
 - [ ] Kiểm tra chéo code, kết quả và nguy cơ data leakage.
 - [ ] Hoàn thiện `requirements.txt`, `.gitignore`, README và hướng dẫn chạy.
 - [ ] Chạy thử toàn bộ backend từ đầu đến cuối; chuẩn bị phiên bản nộp/demo không chứa comment theo yêu cầu giảng viên.
-- [ ] Hoàn thiện báo cáo, slide và ôn tập vấn đáp cả ba thuật toán.
+- [ ] Hoàn thiện dư án, ôn tập vấn đáp cả ba thuật toán.
 
 ## 4. Tiến độ thực hiện (2 ngày)
 
