@@ -166,6 +166,46 @@ Compare Models
      v
 Select Best Model
 ```
+### 5.1. Quy định preprocessing và train/test split dùng chung
+
+Để đảm bảo 3 mô hình Naive Bayes, SVM và Random Forest được đánh giá công bằng, tất cả thành viên phải sử dụng chung quy trình preprocessing và cùng một tập train/test đã được thống nhất.
+
+#### Quy định chung
+
+- Đức phụ trách xây dựng và thống nhất quy trình preprocessing trong `src/preprocessing.py`.
+- Sử dụng chung một dataset và cùng danh sách features đầu vào.
+- Train/test split được thực hiện duy nhất theo quy ước chung:
+  - `test_size = 0.2`
+  - `random_state = 42`
+  - `stratify = y`
+- Không tự ý chia lại train/test trong notebook của từng model.
+- Không tự ý thay đổi features, cách xử lý missing values, encoding hoặc cách split khi chưa thống nhất với nhóm.
+- Các bước preprocessing có học tham số từ dữ liệu (ví dụ imputation, encoding) phải được fit trên tập train và áp dụng lên test để tránh data leakage.
+- Tập test chỉ sử dụng cho đánh giá cuối cùng, không sử dụng trực tiếp để tuning hyperparameters.
+- SVM thực hiện scaling phù hợp với mô hình. Random Forest không bắt buộc scaling dữ liệu.
+- Nếu cần thay đổi preprocessing, các thành viên phải thống nhất và chạy lại các mô hình để đảm bảo kết quả so sánh nhất quán.
+
+#### Cách sử dụng dữ liệu dùng chung
+
+Đức xây dựng hàm preprocessing trong `src/preprocessing.py` để chuẩn bị và chia dữ liệu.
+
+Các thành viên sử dụng chung dữ liệu đầu ra:
+
+```python
+X_train, X_test, y_train, y_test
+```
+
+Giang phụ trách Random Forest phải sử dụng đúng dữ liệu train/test được chuẩn bị từ quy trình chung, không tự thực hiện `train_test_split()` lần nữa.
+
+#### Trách nhiệm của thành viên
+
+| Thành viên | Trách nhiệm |
+|---|---|
+| Đức | Xây dựng preprocessing, train/test split và cung cấp dữ liệu đầu vào dùng chung |
+| Giang | Sử dụng dữ liệu đã thống nhất để train, tuning và evaluate Random Forest; không tự chia dữ liệu lại |
+| Cả hai | Thống nhất trước khi thay đổi preprocessing, features hoặc split |
+
+**Lưu ý:** Mọi mô hình phải được đánh giá trên cùng test set để kết quả Accuracy, Precision, Recall, F1-score và ROC-AUC có thể so sánh công bằng.
 
 **Quy ước chung:**
 
