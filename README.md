@@ -12,7 +12,7 @@ Mục tiêu là xây dựng, huấn luyện và đánh giá 3 mô hình Machine 
 
 Sau đó so sánh hiệu quả của các mô hình để lựa chọn mô hình phù hợp nhất cho bài toán dự đoán hủy phòng.
 
-**Phạm vi dự án:** Chỉ tập trung vào code Machine Learning, tiền xử lý dữ liệu, huấn luyện, tuning và đánh giá mô hình. Không xây dựng website, backend hoặc ứng dụng demo.
+**Phạm vi dự án:** Chỉ tập trung vào code backend Machine Learning, tiền xử lý dữ liệu, huấn luyện, tuning và đánh giá mô hình. Không xây dựng website, app demo.
 
 ---
 
