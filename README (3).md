@@ -2,9 +2,15 @@
 
 ## 1. Giới thiệu
 
-Đồ án Học máy cơ bản dự đoán khả năng hủy đặt phòng khách sạn bằng Gaussian Naive Bayes, SVM (LinearSVC) và Random Forest.
+Dự án môn Học máy cơ bản nhằm dự đoán khả năng khách hàng hủy đặt phòng khách sạn bằng ba thuật toán học có giám sát:
 
-Mục tiêu: phân tích dữ liệu, xử lý đặc trưng, huấn luyện, tối ưu và so sánh ba mô hình. Chỉ triển khai backend, không xây dựng website/app. Thời gian dự kiến: 2 ngày.
+- Gaussian Naive Bayes (GaussianNB).
+- Support Vector Machine (LinearSVC).
+- Random Forest (RandomForestClassifier).
+
+Mục tiêu: phân tích dữ liệu, xây dựng đặc trưng, huấn luyện, tối ưu siêu tham số và so sánh hiệu quả ba mô hình bằng thực nghiệm.
+
+**Phạm vi:** Chỉ xây dựng backend Machine Learning, không xây dựng website hoặc app demo. Thời gian triển khai dự kiến: 2 ngày.
 
 **Dataset:** [Hotel Booking Demand](https://www.kaggle.com/datasets/jessemostipak/hotel-booking-demand) — 119.390 bản ghi, 32 cột. Target: `is_canceled` (0: không hủy, 1: hủy).
 
